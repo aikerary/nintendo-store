@@ -1,5 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -22,4 +23,11 @@ export function getFirebaseDb() {
   const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
   return getFirestore(app);
+}
+
+export function getFirebaseAuth() {
+  const missingKey = requiredKeys.find((key) => !firebaseConfig[key]);
+  if (missingKey) throw new Error("La tienda no está configurada para iniciar sesión.");
+  const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  return getAuth(app);
 }
